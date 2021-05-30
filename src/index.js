@@ -85,7 +85,7 @@ async function runAction() {
 			const lintOutput = linter.lint(lintDirAbs, fileExtList, args, autoFix, prefix);
 
 			// Parse output of linting command
-			const lintResult = linter.parseOutput(context.workspace, lintOutput);
+			const lintResult = linter.parseOutput(context.workspace, lintOutput, lintDirRel);
 			const summary = getSummary(lintResult);
 			core.info(
 				`${linter.name} found ${summary} (${lintResult.isSuccess ? "success" : "failure"})`,
