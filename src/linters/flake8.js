@@ -1,4 +1,4 @@
-const { sep } = require("path");
+const { sep, join } = require("path");
 
 const core = require("@actions/core");
 
