@@ -77,7 +77,6 @@ class Flake8 {
 			if (path.startsWith(leadingSep)) {
 				path = path.substring(2); // Remove "./" or ".\" from start of path
 			}
-			core.info(`Error found in ${path}, ${lintDirRel}, ${pathFull}`)
 			const lineNr = parseInt(line, 10);
 			lintResult.error.push({
 				path,

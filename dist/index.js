@@ -1214,7 +1214,7 @@ class Flake8 {
 	 * @param {{status: number, stdout: string, stderr: string}} output - Output of the lint command
 	 * @returns {import('../utils/lint-result').LintResult} - Parsed lint result
 	 */
-	static parseOutput(dir, output) {
+	static parseOutput(dir, output, lintDirRel) {
 		const lintResult = initLintResult();
 		lintResult.isSuccess = output.status === 0;
 
@@ -1222,7 +1222,8 @@ class Flake8 {
 		for (const match of matches) {
 			const [_, pathFull, line, rule, text] = match;
 			const leadingSep = `.${sep}`;
-			let path = pathFull;
+			let path = join(lintDirRel, pathFull)
+
 			if (path.startsWith(leadingSep)) {
 				path = path.substring(2); // Remove "./" or ".\" from start of path
 			}
@@ -2880,7 +2881,7 @@ async function runAction() {
 			const lintOutput = linter.lint(lintDirAbs, fileExtList, args, autoFix, prefix);
 
 			// Parse output of linting command
-			const lintResult = linter.parseOutput(context.workspace, lintOutput);
+			const lintResult = linter.parseOutput(context.workspace, lintOutput, lintDirRel);
 			const summary = getSummary(lintResult);
 			core.info(
 				`${linter.name} found ${summary} (${lintResult.isSuccess ? "success" : "failure"})`,
